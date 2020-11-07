@@ -12,8 +12,8 @@ import (
 // Variable Used
 var (
 	EnvironmentToken config.TokenENV
-	mysql            config.DBMySQL
-	connection       = mysql.MysqlConn()
+	dbModel          config.DBModel
+	connection       = dbModel.PostgreConn()
 )
 
 // GenerateToken ... Generate JWT Token

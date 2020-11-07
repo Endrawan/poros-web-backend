@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	mysql      config.DBMySQL
-	connection = mysql.MysqlConn()
+	dbModel    config.DBModel
+	connection = dbModel.PostgreConn()
 )
 
 // GetAll ... Get all users from DB

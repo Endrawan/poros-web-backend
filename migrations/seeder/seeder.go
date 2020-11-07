@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	mysql      config.DBMySQL
-	connection = mysql.MysqlConn()
+	dbModel    config.DBModel
+	connection = dbModel.PostgreConn()
 )
 
 // Execute menjalankan seeder yang telah dibuat

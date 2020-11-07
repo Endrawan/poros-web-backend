@@ -10,8 +10,8 @@ type PostImageInterface interface {
 }
 
 var (
-	mysql      config.DBMySQL
-	connection = mysql.MysqlConn()
+	dbModel    config.DBModel
+	connection = dbModel.PostgreConn()
 )
 
 // Get ... Get single post image from DB

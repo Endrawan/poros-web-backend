@@ -6,10 +6,10 @@ import (
 	"github.com/divisi-developer-poros/poros-web-backend/routes"
 )
 
-var mysql config.DBMySQL
+var dbModel config.DBModel
 
 func main() {
-	db:= mysql.MysqlConn()
+	db := dbModel.PostgreConn()
 	migrations.Start(db)
 	routes.Start()
 }

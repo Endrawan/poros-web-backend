@@ -12,8 +12,8 @@ type PostTypeInterface interface {
 }
 
 var (
-	mysql      config.DBMySQL
-	connection = mysql.MysqlConn()
+	dbModel    config.DBModel
+	connection = dbModel.PostgreConn()
 )
 
 // List ... Get all post type from DB

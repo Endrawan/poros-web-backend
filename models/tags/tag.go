@@ -16,8 +16,8 @@ type TagInterface interface {
 }
 
 var (
-	mysql      config.DBMySQL
-	connection = mysql.MysqlConn()
+	dbModel    config.DBModel
+	connection = dbModel.PostgreConn()
 )
 
 // FetchTags ... Get all tags from DB

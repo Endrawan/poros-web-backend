@@ -19,21 +19,22 @@ type DBConfig struct {
 	Password string
 }
 
-// DBMySQL ... Referensi database yang digunakan
-type DBMySQL struct {
+// DBModel ... Referensi database yang digunakan
+type DBModel struct {
 	// DB ... Referensi database yang digunakan
 	DB gorm.DB
 }
 
-// DBMySQLInterface ... Deklarasi interfaces
-type DBMySQLInterface interface {
+// DBModelInterface ... Deklarasi interfaces
+type DBModelInterface interface {
 	BuildDBConfig() *DBConfig
 	DbURL(dbConfig *DBConfig) string
 	MysqlConn() (*gorm.DB, error)
+	PostgreConn() (*gorm.DB, error)
 }
 
 // BuildDBConfig ... Inisialisasi konfigurasi pada database
-func (dbsql *DBMySQL) BuildDBConfig() *DBConfig {
+func (dbsql *DBModel) BuildDBConfig() *DBConfig {
 	// load .env file
 	err := godotenv.Load(".env")
 
@@ -50,8 +51,8 @@ func (dbsql *DBMySQL) BuildDBConfig() *DBConfig {
 	}
 }
 
-// DbURL ... Mengambil url yang digunakan untuk driver
-func (dbsql *DBMySQL) DbURL(dbConfig *DBConfig) string {
+// DbMySQL ... Mengambil url yang digunakan untuk driver MySQL
+func (dbsql *DBModel) DbMySQL(dbConfig *DBConfig) string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		dbConfig.User,
 		dbConfig.Password,
@@ -60,9 +61,29 @@ func (dbsql *DBMySQL) DbURL(dbConfig *DBConfig) string {
 		dbConfig.DBName)
 }
 
+// DbPostgre ... Mengambil url yang digunakan untuk driver MySQL
+func (dbsql *DBModel) DbPostgre(dbConfig *DBConfig) string {
+	return fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+		dbConfig.User,
+		dbConfig.Password,
+		dbConfig.DBName,
+		dbConfig.Host,
+		dbConfig.Port,
+	)
+}
+
 // MysqlConn ... Mysql Connection
-func (dbsql *DBMySQL) MysqlConn() *gorm.DB {
-	result, err := gorm.Open(mysql.Open(dbsql.DbURL(dbsql.BuildDBConfig())), &gorm.Config{})
+func (dbsql *DBModel) MysqlConn() *gorm.DB {
+	result, err := gorm.Open(mysql.Open(dbsql.DbMySQL(dbsql.BuildDBConfig())), &gorm.Config{})
+	if err != nil {
+		return nil
+	}
+	return result
+}
+
+// PostgreConn ... Postgre Connection
+func (dbsql *DBModel) PostgreConn() *gorm.DB {
+	result, err := gorm.Open(mysql.Open(dbsql.DbPostgre(dbsql.BuildDBConfig())), &gorm.Config{})
 	if err != nil {
 		return nil
 	}
