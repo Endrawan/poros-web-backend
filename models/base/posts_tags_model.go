@@ -4,7 +4,7 @@ import (
 	"github.com/divisi-developer-poros/poros-web-backend/models/postimage"
 	"github.com/divisi-developer-poros/poros-web-backend/models/posttype"
 	"github.com/divisi-developer-poros/poros-web-backend/models/user"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 // Post ... Post model declaration

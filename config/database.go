@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -63,7 +64,7 @@ func (dbsql *DBModel) DbMySQL(dbConfig *DBConfig) string {
 
 // DbPostgre ... Mengambil url yang digunakan untuk driver MySQL
 func (dbsql *DBModel) DbPostgre(dbConfig *DBConfig) string {
-	return fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+	return fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
 		dbConfig.User,
 		dbConfig.Password,
 		dbConfig.DBName,
@@ -83,7 +84,7 @@ func (dbsql *DBModel) MysqlConn() *gorm.DB {
 
 // PostgreConn ... Postgre Connection
 func (dbsql *DBModel) PostgreConn() *gorm.DB {
-	result, err := gorm.Open(mysql.Open(dbsql.DbPostgre(dbsql.BuildDBConfig())), &gorm.Config{})
+	result, err := gorm.Open(postgres.Open(dbsql.DbPostgre(dbsql.BuildDBConfig())), &gorm.Config{})
 	if err != nil {
 		return nil
 	}
