@@ -1,6 +1,4 @@
 .env
 .idea/
 sqlite
-assets/posts/images/*
 assets/samples/*
-assets/users/images/*
