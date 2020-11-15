@@ -12,6 +12,7 @@ import (
 	UserTypeController "github.com/divisi-developer-poros/poros-web-backend/controllers/usertype"
 	"github.com/divisi-developer-poros/poros-web-backend/middleware"
 	"github.com/divisi-developer-poros/poros-web-backend/utils/storage"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,6 +38,7 @@ func Start() {
 	r := gin.Default()
 
 	r.Use(MetadataMiddleware.Handler)
+	r.Use(cors.Default())
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello World!")
